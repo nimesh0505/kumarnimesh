@@ -272,20 +272,6 @@ main {
   text-transform: uppercase;
 }
 
-.nav__list {
-  margin-right: 1.5em;
-  display: flex;
-}
-
-.nav__list-item {
-  margin-left: 1.5em;
-}
-
-.nav__hamburger {
-  display: none;
-  width: 1em;
-}
-
 .about {
   flex-direction: column;
   margin-top: 3em;
@@ -456,41 +442,6 @@ main {
   .btn--outline {
     font-size: 0.85rem; /* Smaller button text */
     padding: 0.6em 1.2em; /* Smaller padding */
-  }
-
-  .nav__list {
-    flex-direction: column;
-    padding: 2em 0; /* Reduced padding */
-    position: absolute;
-    right: 0;
-    left: 0;
-    top: 5em;
-    background-color: var(--clr-bg);
-    width: 0;
-    overflow: hidden;
-    transition: width 0.2s ease-in-out;
-    z-index: 1000; /* Ensure menu is above content */
-  }
-
-  .display-nav-list {
-    width: 100%;
-  }
-
-  .nav__list-item {
-    margin: 0.8em 0; /* Larger touch targets */
-  }
-
-  .nav__list-item a {
-    font-size: 1.1rem; /* Larger nav links */
-    padding: 0.5em; /* Larger touch area */
-    display: block;
-  }
-
-  .nav__hamburger {
-    display: flex;
-    margin-left: 0.8em;
-    font-size: 1.5rem; /* Larger hamburger icon */
-    padding: 0.5em; /* Larger touch target */
   }
 
   .about {
