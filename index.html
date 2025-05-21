@@ -9,8 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <script src="https://kit.fontawesome.com/fa62c117c7.js" crossorigin="anonymous"></script>
 
     <style>
         /* Basic Reset */
@@ -357,7 +356,8 @@
                 </a>
 
                 <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" aria-label="stackoverflow" class="link--icon" target="_blank">
-                    <img src="https://img.icons8.com/?size=150&id=13955&format=png&color=000000" alt="Stack Overflow" /> </a>
+                    <i class="fab fa-stack-overflow"></i>
+                </a>
 
                 <a href="mailto:your.email@example.com" aria-label="email" class="link--icon" target="_blank">
                     <i class="fas fa-envelope"></i>
@@ -389,17 +389,6 @@
             const currentYearSpan = document.getElementById('current-year');
             const waveCanvas = document.getElementById('wave-canvas');
             const waveCtx = waveCanvas.getContext('2d');
-
-            // Check if canvas context is obtained
-            if (!waveCtx) {
-                console.error("Could not get 2D context for wave canvas.");
-                // Optionally hide the canvas or show a fallback
-                 if (waveCanvas) waveCanvas.style.display = 'none';
-                 return; // Stop script execution if canvas is not available
-            } else {
-                 console.log("Canvas 2D context obtained successfully.");
-            }
-
 
             let waves = [];
             const numberOfWaves = 5; // Number of waves
@@ -446,19 +435,17 @@
                 localStorage.setItem('portfolio-btn-theme', btnClass);
 
                 // Update wave colors on theme change
-                updateWaveColors(); // Call updateWaveColors directly
+                if (waveCanvas && waveCtx) { // Check if canvas context is initialized
+                    updateWaveColors();
+                }
             }
 
             const toggleTheme = () => {
                 isDark() ? setTheme('light', 'fa-moon') : setTheme('dark', 'fa-sun');
             }
 
-            // Add event listener to the button only if it exists
-            if (btnTheme) {
-                btnTheme.addEventListener('click', toggleTheme);
-            } else {
-                 console.error("Theme toggle button not found.");
-            }
+            // Add event listener to the button
+            btnTheme.addEventListener('click', toggleTheme);
 
 
             // Scroll-to-Top Button Logic
@@ -470,20 +457,10 @@
                 }
             };
 
-            // Add scroll event listener only if the button exists
-            if (scrollToTopButton) {
-                window.addEventListener('scroll', toggleScrollTopButton);
-            } else {
-                 console.error("Scroll to top button not found.");
-            }
+            window.addEventListener('scroll', toggleScrollTopButton);
 
-
-            // Update current year in the footer only if the span exists
-            if (currentYearSpan) {
-                currentYearSpan.textContent = new Date().getFullYear();
-            } else {
-                 console.error("Current year span not found.");
-            }
+            // Update current year in the footer
+            currentYearSpan.textContent = new Date().getFullYear();
 
 
             // --- Flowing Waves Background ---
