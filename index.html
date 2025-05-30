@@ -9,7 +9,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
-    <script src="https://kit.fontawesome.com/fa62c117c7.js" crossorigin="anonymous"></script>
+    <!-- Font Awesome CDN for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-+CZCzMxvjRW4NywLewqc2icNXzwoM8+Ivs815Zb5Nsu9T448/HBZ2ADNVXJ11GQzUXIw0EL8C4LyeKY8XoYyNQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         /* Basic Reset */
@@ -137,13 +138,24 @@
         }
 
         .link--icon img {
-            width: 32px;
-            height: 32px;
+            width: 26px;
+            height: 26px;
+            /* Force monochrome (dark) in light mode */
+            filter: brightness(0) saturate(100%) invert(0);
             transition: filter 0.3s ease;
         }
 
+        /* Ensure inline SVG icons scale consistently with images */
+        .link--icon svg {
+            width: 26px;
+            height: 26px;
+            fill: currentColor;
+            transition: fill 0.3s ease;
+        }
+
+        /* Lighten icons in dark mode */
         .dark .link--icon img {
-             filter: invert(1); /* Invert image colors in dark mode */
+            filter: brightness(0) saturate(100%) invert(1);
         }
 
         /* Style for Font Awesome icons within link--icon */
@@ -339,28 +351,33 @@
                 As a seasoned Senior Engineer, I specialize in building and scaling robust, high-performance systems that drive significant impact. I have a strong track record in leading complex technical projects, collaborating effectively across diverse teams, and architecting solutions that are both innovative and maintainable. My focus is on delivering technical excellence and contributing to products that shape the future.
             </p>
             <div class="about__contact">
-                <a href="https://github.com/nimesh0505" aria-label="github" class="link--icon" target="_blank">
-                    <i class="fab fa-github"></i>
+                <a href="https://github.com/nimesh0505" aria-label="GitHub" class="link--icon" target="_blank">
+                    <img src="https://cdn.simpleicons.org/github" alt="GitHub" />
                 </a>
 
-                <a href="https://www.linkedin.com/in/nimeshkumar031/" aria-label="linkedin" class="link--icon" target="_blank">
-                    <i class="fab fa-linkedin"></i>
+                <a href="https://www.linkedin.com/in/nimeshkumar031/" aria-label="LinkedIn" class="link--icon" target="_blank">
+                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+                        <title>LinkedIn</title>
+                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.474-2.236-1.659-2.236-.906 0-1.445.611-1.683 1.2-.087.212-.108.508-.108.806v5.799h-3.554s.047-9.422 0-10.394h3.554v1.474h.024c.472-.729 1.314-1.771 3.194-1.771 2.335 0 4.084 1.523 4.084 4.793v5.898zM5.991 8.667a2.062 2.062 0 01-2.062-2.059A2.063 2.063 0 015.992 4.55c1.139 0 2.061.924 2.061 2.058a2.06 2.06 0 01-2.061 2.059zm1.777 11.785H4.215V9.956h3.553v10.496zM22.225 0H1.771C.792 0 0 .772 0 1.723v20.549C0 23.229.792 24 1.771 24h20.451C23.2 24 24 23.229 24 22.272V1.723C24 .772 23.2 0 22.222 0h.003z"/>
+                    </svg>
                 </a>
 
-                <a href="https://leetcode.com/u/user1467xZ/" aria-label="leetcode" class="link--icon" target="_blank">
-                    <img src="https://img.icons8.com/?size=150&id=DY5ms98U0Yqs&format=png&color=000000" alt="LeetCode" />
+                <a href="https://leetcode.com/u/user1467xZ/" aria-label="LeetCode" class="link--icon" target="_blank">
+                    <img src="https://cdn.simpleicons.org/leetcode" alt="LeetCode" />
                 </a>
 
-                <a href="https://www.hackerrank.com/profile/nimesh0505" aria-label="hackerrank" class="link--icon" target="_blank">
-                    <img src="https://img.icons8.com/?size=150&id=giWSfyxmIIiG&format=png&color=000000" alt="HackerRank" />
+                <a href="https://www.hackerrank.com/profile/nimesh0505" aria-label="HackerRank" class="link--icon" target="_blank">
+                    <img src="https://cdn.simpleicons.org/hackerrank" alt="HackerRank" />
                 </a>
 
-                <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" aria-label="stackoverflow" class="link--icon" target="_blank">
-                    <i class="fab fa-stack-overflow"></i>
+                <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" aria-label="StackOverflow" class="link--icon" target="_blank">
+                    <img src="https://cdn.simpleicons.org/stackoverflow" alt="Stack Overflow" />
                 </a>
 
-                <a href="mailto:your.email@example.com" aria-label="email" class="link--icon" target="_blank">
-                    <i class="fas fa-envelope"></i>
+                <a href="mailto:your.email@example.com" aria-label="Email" class="link--icon" target="_blank">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
+                    </svg>
                 </a>
             </div>
             </section>
