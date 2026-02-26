@@ -1,591 +1,395 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content=" Nimesh Kumar's Professional Portfolio" />
-    <title>Nimesh Kumar</title>
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" rel="stylesheet" />
-    <!-- Font Awesome CDN for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-+CZCzMxvjRW4NywLewqc2icNXzwoM8+Ivs815Zb5Nsu9T448/HBZ2ADNVXJ11GQzUXIw0EL8C4LyeKY8XoYyNQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-
+    <title>Nimesh Kumar - Senior Engineer</title>
+    <meta
+      name="description"
+      content="Nimesh Kumar - Senior Engineer specializing in building and scaling robust, high-performance systems."
+    />
+    <meta name="author" content="Nimesh Kumar" />
+    <meta property="og:title" content="Nimesh Kumar - Senior Engineer" />
+    <meta
+      property="og:description"
+      content="Senior Engineer specializing in building and scaling robust, high-performance systems."
+    />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Fira+Code:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
     <style>
-        /* Basic Reset */
-        * {
-            padding: 0;
-            margin: 0;
-            border: 0;
-            outline: 0;
-            /* Remove background-color: inherit; and color: inherit; for specific elements */
-            font-family: inherit;
-            font-size: inherit;
-            box-shadow: none;
-            box-sizing: border-box;
+      :root {
+        --background: #ffffff;
+        --foreground: #141414;
+        --muted: #737373;
+        --border: rgba(0, 0, 0, 0.1);
+        --card-bg: rgba(255, 255, 255, 0.6);
+        --gradient-dark: linear-gradient(135deg, #121212, #4a4a4a);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        background: var(--background);
+        color: var(--foreground);
+        font-family: "Outfit", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .page {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+      }
+
+      #bgCanvas {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+
+      .vignette {
+        position: absolute;
+        inset: 0;
+        z-index: 1;
+        pointer-events: none;
+        background: radial-gradient(ellipse at center, transparent 40%, #f5f5f5 90%);
+      }
+
+      .content {
+        position: relative;
+        z-index: 2;
+      }
+
+      nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem 1.5rem;
+      }
+
+      .logo {
+        font-family: "Fira Code", monospace;
+        font-weight: 800;
+        font-size: 1.5rem;
+        letter-spacing: -0.02em;
+        background-image: var(--gradient-dark);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      main {
+        min-height: calc(100vh - 140px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 1rem 1.5rem 2rem;
+      }
+
+      .pill {
+        display: inline-block;
+        padding: 0.55rem 1.25rem;
+        border-radius: 999px;
+        border: 1px solid rgba(0, 0, 0, 0.2);
+        background: rgba(0, 0, 0, 0.03);
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      h1 {
+        margin: 2rem 0 0;
+        max-width: 70rem;
+        font-size: clamp(2.6rem, 8vw, 5.5rem);
+        font-weight: 800;
+        line-height: 1.05;
+        letter-spacing: -0.02em;
+      }
+
+      .name-gradient {
+        background-image: var(--gradient-dark);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      .dot {
+        color: #1f1f1f;
+      }
+
+      .intro {
+        margin-top: 2rem;
+        max-width: 42rem;
+        font-size: clamp(1rem, 2.2vw, 1.1rem);
+        line-height: 1.8;
+        color: rgba(20, 20, 20, 0.72);
+        font-weight: 300;
+      }
+
+      .social {
+        margin-top: 3.2rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0.75rem;
+      }
+
+      .social a {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.55rem;
+        padding: 0.7rem 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid var(--border);
+        background: var(--card-bg);
+        backdrop-filter: blur(10px);
+        color: var(--muted);
+        text-decoration: none;
+        transition: transform 0.25s ease, border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
+      }
+
+      .social a:hover {
+        transform: translateY(-3px);
+        border-color: rgba(0, 0, 0, 0.28);
+        color: #111111;
+        background: rgba(255, 255, 255, 0.9);
+      }
+
+      .social-label {
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+        letter-spacing: 0.02em;
+      }
+
+      footer {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        padding-bottom: 2rem;
+      }
+
+      footer p {
+        margin: 0;
+        color: rgba(0, 0, 0, 0.45);
+        font-family: "Fira Code", monospace;
+        font-size: 0.72rem;
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        animation: reveal 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+
+      .delay-1 {
+        animation-delay: 140ms;
+      }
+      .delay-2 {
+        animation-delay: 280ms;
+      }
+      .delay-3 {
+        animation-delay: 420ms;
+      }
+      .delay-4 {
+        animation-delay: 560ms;
+      }
+      .delay-5 {
+        animation-delay: 700ms;
+      }
+
+      @keyframes reveal {
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
+      }
 
-        html {
-            scroll-behavior: smooth;
+      @media (min-width: 768px) {
+        nav {
+          padding: 1.5rem 3rem;
         }
-
-        body {
-            font-family: "Poppins", sans-serif;
-            line-height: 1.6;
-            color: var(--clr-fg);
-            background-color: var(--clr-bg);
-            transition: color 0.3s ease, background-color 0.3s ease;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden; /* Prevent horizontal scroll */
-        }
-
-        /* Theme Variables */
-        .light {
-            --clr-bg: #f8f8f8; /* Light background */
-            --clr-bg-alt: #ffffff; /* White background for sections */
-            --clr-fg: #333333; /* Dark text */
-            --clr-fg-alt: #1a1a1a; /* Darker text for headings */
-            --clr-primary: #6a0dad; /* Deep Purple accent */
-            --shadow: rgba(0, 0, 0, 0.1) 0px 4px 12px; /* Soft shadow */
-            /* Define wave colors */
-            --wave-color-1: rgba(138, 43, 226, 0.2); /* Blue Violet with opacity */
-            --wave-color-2: rgba(147, 112, 219, 0.15); /* Medium Purple with opacity */
-            --wave-color-3: rgba(179, 102, 229, 0.1); /* Even lighter Purple with opacity */
-        }
-
-        .dark {
-            --clr-bg: #1a1a2e; /* Dark background */
-            --clr-bg-alt: #16213e; /* Slightly lighter dark for sections */
-            --clr-fg: #e0e0e0; /* Light text */
-            --clr-fg-alt: #ffffff; /* White text for headings */
-            --clr-primary: #9b59b6; /* Muted Purple accent */
-            --shadow: rgba(0, 0, 0, 0.3) 0px 8px 24px; /* Deeper shadow */
-            /* Define wave colors */
-            --wave-color-1: rgba(167, 65, 224, 0.3); /* Lighter Purple with opacity */
-            --wave-color-2: rgba(179, 102, 229, 0.2); /* Even lighter Purple with opacity */
-            --wave-color-3: rgba(191, 128, 234, 0.15); /* Lighter still Purple with opacity */
-        }
-
-        ::-moz-selection {
-            background: var(--clr-primary);
-            color: var(--clr-bg);
-        }
-
-        ::-webkit-selection,
-        ::selection {
-            background: var(--clr-primary);
-            color: var(--clr-bg);
-        }
-
-        h1, h2, h3, h4 {
-            line-height: 1.3;
-            color: var(--clr-fg-alt);
-        }
-
-        h1 { font-size: 3.5rem; text-align: center; }
-        h2 { font-size: 2rem; text-align: center; }
-        h3 { font-size: 1.5rem; }
-        h4 { font-size: 1.2rem; }
-
-        ul { list-style-type: none; }
-        a { text-decoration: none; }
-        button { cursor: pointer; }
-
-        @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
-            h2 { font-size: 1.8rem; }
-        }
-
-        /*===================
-          buttons and links
-        ===================*/
-        .link {
-            color: var(--clr-primary);
-            position: relative;
-            padding-bottom: 0.1em;
-        }
-
-        .link::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background-color: var(--clr-primary);
-            transition: width 0.3s ease-in-out;
-        }
-
-        .link:hover::after {
-            width: 100%;
-        }
-
-        .link--icon {
-            color: var(--clr-fg); /* Default icon color from theme */
-            font-size: 1.5rem;
-            padding: 0.4em;
-            transition: color 0.3s ease, transform 0.2s ease-in-out;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .link--icon:hover {
-            color: var(--clr-primary); /* Accent color on hover */
-            transform: translateY(-3px);
-        }
-
-        .link--icon img {
-            width: 26px;
-            height: 26px;
-            /* Force monochrome (dark) in light mode */
-            filter: brightness(0) saturate(100%) invert(0);
-            transition: filter 0.3s ease;
-        }
-
-        /* Ensure inline SVG icons scale consistently with images */
-        .link--icon svg {
-            width: 26px;
-            height: 26px;
-            fill: currentColor;
-            transition: fill 0.3s ease;
-        }
-
-        /* Lighten icons in dark mode */
-        .dark .link--icon img {
-            filter: brightness(0) saturate(100%) invert(1);
-        }
-
-        /* Style for Font Awesome icons within link--icon */
-        .link--icon i {
-             color: inherit; /* Inherit color from parent .link--icon */
-        }
-
-
-        .btn {
-            display: inline-block;
-            padding: 0.8em 1.8em;
-            font-weight: 500;
-            font-size: 1rem;
-            text-transform: uppercase;
-            border-radius: 5px;
-            transition: transform 0.2s ease-in-out, opacity 0.3s ease;
-        }
-
-        .btn--outline {
-            color: var(--clr-primary);
-            border: 2px solid var(--clr-primary);
-            background-color: transparent;
-        }
-
-        .btn--outline:hover {
-            background-color: var(--clr-primary);
-            color: var(--clr-bg-alt);
-        }
-
-        .btn--icon {
-            padding: 0.6em;
-            font-size: 1.2rem;
-            background-color: var(--clr-bg-alt);
-            border-radius: 50%;
-            box-shadow: var(--shadow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .btn--icon:hover {
-             transform: scale(1.1);
-        }
-
-
-        /*========
-          layout
-        ========*/
-        .center {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .header {
-            height: 6em;
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-            justify-content: space-between;
-            align-items: center;
-            position: relative; /* Ensure header is above canvas */
-            z-index: 10;
-        }
-
-        main {
-            max-width: 1200px;
-            width: 90%;
-            margin: 0 auto;
-            padding-top: 2em;
-            position: relative; /* Ensure main content is above canvas */
-            z-index: 10;
-        }
-
-        .section {
-            margin-top: 4em;
-            padding: 2em;
-            background-color: transparent; /* Make background transparent */
-            box-shadow: none; /* Removed box shadow */
-            border-radius: 8px;
-            text-align: center;
-        }
-
-        .section__title {
-            margin-bottom: 1em;
-            text-transform: uppercase;
-            font-size: 2.5rem;
-        }
-
-        .about {
-            flex-direction: column;
-            margin-top: 3em;
-        }
-
-        .about__name {
-            color: var(--clr-primary);
-        }
-
-        .about__role {
-            margin-top: 0.5em;
-            color: var(--clr-fg);
-            font-weight: 400;
-        }
-
-        .about__desc {
-            font-size: 1.1rem;
-            max-width: 700px;
-            margin: 1.5em auto;
-            text-align: center;
-        }
-
-        .about__contact {
-            margin-top: 2em;
-            display: flex;
-            justify-content: center;
-            gap: 1.5em;
-            flex-wrap: wrap;
-        }
-
-        /* Removed the style for the resume button link */
-
-
-        .footer {
-            padding: 2em 0;
-            margin-top: 4em;
-            text-align: center;
-            font-size: 0.9rem;
-            color: var(--clr-fg);
-            position: relative; /* Ensure footer is above canvas */
-            z-index: 10;
-        }
-
-        .scroll-top {
-            display: none;
-            position: fixed;
-            bottom: 1.5em;
-            right: 1.5em;
-            background-color: var(--clr-primary);
-            color: var(--clr-bg-alt);
-            font-size: 1.5rem;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: var(--shadow);
-            transition: transform 0.2s ease-in-out, background-color 0.3s ease;
-            z-index: 100;
-        }
-
-        .scroll-top:hover {
-            transform: translateY(-5px);
-            background-color: #0056b3; /* Darker blue example */
-        }
-
-
-        /*===================
-          Wave Background Canvas
-        ===================*/
-        #wave-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1; /* Position behind content */
-            pointer-events: none; /* Allow mouse events to pass through to content */
-        }
-
+      }
     </style>
-</head>
+  </head>
 
-<body class="light" id="top">
+  <body>
+    <div class="page">
+      <canvas id="bgCanvas" aria-hidden="true"></canvas>
+      <div class="vignette" aria-hidden="true"></div>
 
-    <canvas id="wave-canvas"></canvas>
+      <div class="content">
+        <nav class="reveal">
+          <span class="logo">NK</span>
+        </nav>
 
-    <header class="header center">
-        <h3>
-            <a href="#top" class="link">NK</a>
-        </h3>
+        <main>
+          <div class="reveal delay-1">
+            <span class="pill">Senior Engineer</span>
+          </div>
 
-        <button type="button" aria-label="toggle theme" class="btn btn--icon" id="theme-toggle">
-            <i aria-hidden="true" id="btn-theme" class="fas fa-moon"></i>
-        </button>
-    </header>
+          <h1 class="reveal delay-2">
+            Hi, I am<br />
+            <span class="name-gradient">Nimesh Kumar</span><span class="dot">.</span>
+          </h1>
 
-    <main>
-        <section id="about" class="section about">
-            <h1>Hi, I am <span class="about__name">Nimesh Kumar.</span></h1>
-            <h2 class="about__role">Senior Engineer</h2>
-            <p class="about__desc">
-                As a seasoned Senior Engineer, I specialize in building and scaling robust, high-performance systems that drive significant impact. I have a strong track record in leading complex technical projects, collaborating effectively across diverse teams, and architecting solutions that are both innovative and maintainable. My focus is on delivering technical excellence and contributing to products that shape the future.
-            </p>
-            <div class="about__contact">
-                <a href="https://github.com/nimesh0505" aria-label="GitHub" class="link--icon" target="_blank">
-                    <img src="https://cdn.simpleicons.org/github" alt="GitHub" />
-                </a>
+          <p class="intro reveal delay-3">
+            As a seasoned Senior Engineer, I specialize in building and scaling robust, high-performance systems that drive significant impact. I have a strong track record in leading complex technical projects, collaborating effectively across diverse teams, and architecting solutions that are both innovative and maintainable.
+          </p>
 
-                <a href="https://www.linkedin.com/in/nimeshkumar031/" aria-label="LinkedIn" class="link--icon" target="_blank">
-                    <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <title>LinkedIn</title>
-                        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.474-2.236-1.659-2.236-.906 0-1.445.611-1.683 1.2-.087.212-.108.508-.108.806v5.799h-3.554s.047-9.422 0-10.394h3.554v1.474h.024c.472-.729 1.314-1.771 3.194-1.771 2.335 0 4.084 1.523 4.084 4.793v5.898zM5.991 8.667a2.062 2.062 0 01-2.062-2.059A2.063 2.063 0 015.992 4.55c1.139 0 2.061.924 2.061 2.058a2.06 2.06 0 01-2.061 2.059zm1.777 11.785H4.215V9.956h3.553v10.496zM22.225 0H1.771C.792 0 0 .772 0 1.723v20.549C0 23.229.792 24 1.771 24h20.451C23.2 24 24 23.229 24 22.272V1.723C24 .772 23.2 0 22.222 0h.003z"/>
-                    </svg>
-                </a>
+          <p class="intro reveal delay-4">
+            My focus is on delivering technical excellence and contributing to products that shape the future.
+          </p>
 
-                <a href="https://leetcode.com/u/user1467xZ/" aria-label="LeetCode" class="link--icon" target="_blank">
-                    <img src="https://cdn.simpleicons.org/leetcode" alt="LeetCode" />
-                </a>
-
-                <a href="https://www.hackerrank.com/profile/nimesh0505" aria-label="HackerRank" class="link--icon" target="_blank">
-                    <img src="https://cdn.simpleicons.org/hackerrank" alt="HackerRank" />
-                </a>
-
-                <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" aria-label="StackOverflow" class="link--icon" target="_blank">
-                    <img src="https://cdn.simpleicons.org/stackoverflow" alt="Stack Overflow" />
-                </a>
-
-                <a href="mailto:your.email@example.com" aria-label="Email" class="link--icon" target="_blank">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor">
-                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z"/>
-                    </svg>
-                </a>
-            </div>
-            </section>
-
+          <div class="social reveal delay-5">
+            <a href="https://github.com/nimesh0505" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <span class="social-label">GitHub</span>
+            </a>
+            <a href="https://www.linkedin.com/in/nimeshkumar031/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
+              <span class="social-label">LinkedIn</span>
+            </a>
+            <a href="https://leetcode.com/u/user1467xZ/" target="_blank" rel="noopener noreferrer" aria-label="LeetCode">
+              <span class="social-label">LeetCode</span>
+            </a>
+            <a href="https://www.hackerrank.com/profile/nimesh0505" target="_blank" rel="noopener noreferrer" aria-label="HackerRank">
+              <span class="social-label">HackerRank</span>
+            </a>
+            <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" target="_blank" rel="noopener noreferrer" aria-label="Stack Overflow">
+              <span class="social-label">Stack Overflow</span>
+            </a>
+            <a href="mailto:your.email@example.com" aria-label="Email">
+              <span class="social-label">Email</span>
+            </a>
+          </div>
         </main>
+      </div>
 
-    <div class="scroll-top">
-        <a aria-label="Scroll up" href="#top">
-            <i aria-hidden="true" class="fas fa-arrow-up"></i>
-        </a>
+      <footer class="reveal delay-5">
+        <p>&copy; 2026 Nimesh Kumar</p>
+      </footer>
     </div>
 
-    <footer class="footer">
-        &copy; <span id="current-year"></span> Nimesh Kumar. All rights reserved.
-    </footer>
-
     <script>
-        // JavaScript for Theme Toggle and Scroll-to-Top
+      (function () {
+        const canvas = document.getElementById("bgCanvas");
+        const ctx = canvas.getContext("2d");
+        if (!ctx) return;
 
-        // Use DOMContentLoaded to ensure the DOM is fully loaded before accessing elements
-        document.addEventListener('DOMContentLoaded', function() {
-            const body = document.body;
-            const btnTheme = document.getElementById('theme-toggle'); // Get the button itself
-            const themeIcon = document.getElementById('btn-theme'); // Get the icon inside the button
-            const scrollToTopButton = document.querySelector('.scroll-top');
-            const currentYearSpan = document.getElementById('current-year');
-            const waveCanvas = document.getElementById('wave-canvas');
-            const waveCtx = waveCanvas.getContext('2d');
+        const mouse = { x: -1000, y: -1000 };
+        const particles = [];
+        const maxConnectionDistance = 150;
 
-            let waves = [];
-            const numberOfWaves = 5; // Number of waves
-            let waveColors = []; // Array to hold wave colors
-
-            let animationFrameId = null; // To store the animation frame ID
-
-            // Mouse position (for potential future interaction, currently not used)
-            const mouse = {
-                x: null,
-                y: null
-            };
-
-
-            const addThemeClass = (bodyClass, btnClass) => {
-                body.classList.add(bodyClass);
-                themeIcon.classList.add(btnClass);
-            }
-
-            const getBodyTheme = localStorage.getItem('portfolio-theme');
-            const getBtnTheme = localStorage.getItem('portfolio-btn-theme');
-
-            // Apply saved theme or default
-            if (getBodyTheme && getBtnTheme) {
-                 addThemeClass(getBodyTheme, getBtnTheme);
-            } else {
-                 // Default to light theme
-                 addThemeClass('light', 'fa-moon');
-            }
-
-
-            const isDark = () => body.classList.contains('dark');
-
-            const setTheme = (bodyClass, btnClass) => {
-                // Remove existing theme classes
-                body.classList.remove('light', 'dark');
-                themeIcon.classList.remove('fa-moon', 'fa-sun');
-
-                // Add new theme classes
-                addThemeClass(bodyClass, btnClass);
-
-                // Save to local storage
-                localStorage.setItem('portfolio-theme', bodyClass);
-                localStorage.setItem('portfolio-btn-theme', btnClass);
-
-                // Update wave colors on theme change
-                if (waveCanvas && waveCtx) { // Check if canvas context is initialized
-                    updateWaveColors();
-                }
-            }
-
-            const toggleTheme = () => {
-                isDark() ? setTheme('light', 'fa-moon') : setTheme('dark', 'fa-sun');
-            }
-
-            // Add event listener to the button
-            btnTheme.addEventListener('click', toggleTheme);
-
-
-            // Scroll-to-Top Button Logic
-            const toggleScrollTopButton = () => {
-                if (window.scrollY > 500) { // Show button after scrolling 500px
-                    scrollToTopButton.style.display = 'flex'; // Use flex to center icon
-                } else {
-                    scrollToTopButton.style.display = 'none';
-                }
-            };
-
-            window.addEventListener('scroll', toggleScrollTopButton);
-
-            // Update current year in the footer
-            currentYearSpan.textContent = new Date().getFullYear();
-
-
-            // --- Flowing Waves Background ---
-
-            // Handle window resize
-            window.addEventListener('resize', () => {
-                // Cancel the previous animation frame before resizing and re-initializing
-                if (animationFrameId) {
-                    cancelAnimationFrame(animationFrameId);
-                }
-                initWaves(); // Re-initialize waves on resize
-                animateWaves(); // Start the animation again
+        function createParticles(width, height) {
+          particles.length = 0;
+          const count = Math.min(80, Math.floor((width * height) / 12000));
+          for (let i = 0; i < count; i += 1) {
+            particles.push({
+              x: Math.random() * width,
+              y: Math.random() * height,
+              vx: (Math.random() - 0.5) * 0.4,
+              vy: (Math.random() - 0.5) * 0.4,
+              radius: Math.random() * 2 + 1,
+              alpha: Math.random() * 0.5 + 0.2
             });
+          }
+        }
 
-            // Function to update wave colors based on theme
-            function updateWaveColors() {
-                const style = getComputedStyle(document.body);
-                waveColors = [
-                    style.getPropertyValue('--wave-color-1').trim(),
-                    style.getPropertyValue('--wave-color-2').trim(),
-                    style.getPropertyValue('--wave-color-3').trim(),
-                    // Add more if you have more wave color variables
-                ];
-                // Ensure we have enough colors for the number of waves
-                while (waveColors.length < numberOfWaves) {
-                    waveColors.push(waveColors[waveColors.length % 3]); // Cycle through existing colors
-                }
+        function resizeCanvas() {
+          canvas.width = window.innerWidth;
+          canvas.height = window.innerHeight;
+          createParticles(canvas.width, canvas.height);
+        }
+
+        function updateAndDraw() {
+          const width = canvas.width;
+          const height = canvas.height;
+          ctx.clearRect(0, 0, width, height);
+
+          for (const p of particles) {
+            p.x += p.vx;
+            p.y += p.vy;
+
+            if (p.x < 0) p.x = width;
+            if (p.x > width) p.x = 0;
+            if (p.y < 0) p.y = height;
+            if (p.y > height) p.y = 0;
+
+            const dx = p.x - mouse.x;
+            const dy = p.y - mouse.y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 120 && dist > 0) {
+              const force = ((120 - dist) / 120) * 0.8;
+              p.x += (dx / dist) * force;
+              p.y += (dy / dist) * force;
             }
+          }
 
-            // Wave class
-            class Wave {
-                constructor(color, speed, amplitude, frequency, yOffset) {
-                    this.color = color;
-                    this.speed = speed;
-                    this.amplitude = amplitude; // Height of the wave
-                    this.frequency = frequency; // How spread out the waves are
-                    this.yOffset = yOffset; // Vertical starting position
-                    this.angle = 0; // Current angle for sine wave calculation
-                }
-
-                // Method to draw the wave
-                draw() {
-                    waveCtx.beginPath();
-                    waveCtx.strokeStyle = this.color;
-                    waveCtx.lineWidth = 2; // Wave line thickness
-
-                    // Start the wave off-screen to the left
-                    waveCtx.moveTo(-waveCanvas.width, this.yOffset);
-
-                    // Draw the wave using a sine function
-                    for (let x = -waveCanvas.width; x < waveCanvas.width * 2; x += 5) { // Iterate across a wider area
-                        const y = this.yOffset + Math.sin(x * this.frequency + this.angle) * this.amplitude;
-                        waveCtx.lineTo(x, y);
-                    }
-
-                    waveCtx.stroke();
-                }
-
-                // Method to update wave position
-                update() {
-                    this.angle += this.speed; // Increment angle to make the wave flow
-                }
+          for (let i = 0; i < particles.length; i += 1) {
+            for (let j = i + 1; j < particles.length; j += 1) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < maxConnectionDistance) {
+                const alpha = (1 - dist / maxConnectionDistance) * 0.08;
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = "rgba(0, 0, 0, " + alpha + ")";
+                ctx.lineWidth = 0.6;
+                ctx.stroke();
+              }
             }
+          }
 
-            // Function to initialize waves
-            function initWaves() {
-                 // Ensure canvas size is set before creating waves
-                 waveCanvas.width = window.innerWidth;
-                 waveCanvas.height = window.innerHeight;
+          for (const p of particles) {
+            const gradient = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.radius * 4);
+            gradient.addColorStop(0, "rgba(0, 0, 0, " + p.alpha * 0.3 + ")");
+            gradient.addColorStop(1, "rgba(0, 0, 0, 0)");
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius * 4, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
 
-                waves = [];
-                updateWaveColors(); // Get current theme colors
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(0, 0, 0, " + p.alpha * 0.5 + ")";
+            ctx.fill();
+          }
 
-                // Create waves with varying properties
-                for (let i = 0; i < numberOfWaves; i++) {
-                    const color = waveColors[i % waveColors.length]; // Cycle through defined colors
-                    const speed = (i + 1) * 0.0005; // Different speeds for each wave
-                    const amplitude = Math.random() * 30 + 20; // Random amplitude between 20 and 50
-                    const frequency = Math.random() * 0.005 + 0.002; // Random frequency
-                    const yOffset = (waveCanvas.height / (numberOfWaves + 1)) * (i + 1); // Distribute waves vertically
+          requestAnimationFrame(updateAndDraw);
+        }
 
-                    waves.push(new Wave(color, speed, amplitude, frequency, yOffset));
-                }
-            }
+        window.addEventListener("mousemove", function (event) {
+          mouse.x = event.clientX;
+          mouse.y = event.clientY;
+        });
 
-            // Animation loop
-            function animateWaves() {
-                // Clear canvas
-                waveCtx.clearRect(0, 0, waveCanvas.width, waveCanvas.height);
+        window.addEventListener("resize", resizeCanvas);
 
-                // Update and draw waves
-                for (let i = 0; i < waves.length; i++) {
-                    waves[i].update();
-                    waves[i].draw();
-                }
-
-                // Request next frame
-                animationFrameId = requestAnimationFrame(animateWaves);
-            }
-
-            // Initialize canvas size and waves when DOM is loaded
-             initWaves(); // Initialize waves and canvas size
-             animateWaves(); // Start the animation
-
-
-        }); // End of DOMContentLoaded listener
-
+        resizeCanvas();
+        updateAndDraw();
+      })();
     </script>
-
-</body>
+  </body>
 </html>
