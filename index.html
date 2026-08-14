@@ -1,79 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nimesh Kumar</title>
-  
-  <!-- NK Favicon -->
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23181818'/%3E%3Ctext x='50' y='65' font-size='45' text-anchor='middle' fill='white' font-weight='bold'%3ENK%3C/text%3E%3C/svg%3E">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nimesh Kumar — Senior Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --paper: #0E1116;
+    --surface: #151B23;
+    --surface-hover: #1A222C;
+    --ink: #ECEDE8;
+    --ink-soft: #99A1AB;
+    --accent: #E8B45A;
+    --accent-soft: rgba(232, 180, 90, 0.12);
+    --accent-deep: #C79138;
+    --accent-contrast: #14100A;
+    --line: #222933;
+    --maxw: 1080px;
+  }
 
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
-    body { font-family: 'Inter', system-ui, sans-serif; }
-  </style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "IBM Plex Sans", system-ui, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+    background-image:
+      radial-gradient(ellipse 55% 40% at 18% 0%, rgba(232,180,90,.08), transparent 70%),
+      radial-gradient(ellipse 45% 35% at 92% 100%, rgba(232,180,90,.04), transparent 70%),
+      radial-gradient(circle, rgba(236,237,232,.055) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 34px 34px;
+    background-attachment: fixed;
+  }
+
+  .sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+
+  /* ---------- header / nav ---------- */
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28px 0 0;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  header .dot { color: var(--accent); }
+  header nav { display: flex; gap: 26px; }
+  header nav a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    transition: color .15s ease;
+  }
+  header nav a:hover, header nav a:focus-visible { color: var(--accent); }
+
+  /* ---------- section scaffolding ---------- */
+  section { padding: 7vh 0; }
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    margin-bottom: 30px;
+  }
+  .section-label::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--line), transparent);
+  }
+  .section-label .dot { color: var(--accent); }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 11vh 0 5vh; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    border: 1px solid rgba(232,180,90,.25);
+    border-radius: 999px;
+    padding: 8px 18px;
+    margin-bottom: 32px;
+    animation: rise .7s ease both;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 10px rgba(232,180,90,.8);
+  }
+
+  h1 {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 800;
+    font-size: clamp(3rem, 9vw, 6.5rem);
+    line-height: 1.03;
+    letter-spacing: -0.03em;
+    max-width: 12ch;
+    animation: rise .7s .08s ease both;
+  }
+  h1 .thin { font-weight: 300; color: var(--ink-soft); }
+  h1 .accent { color: var(--accent); }
+
+  .lede {
+    margin-top: 44px;
+    max-width: 64ch;
+    padding-left: 28px;
+    border-left: 2px solid var(--line);
+    position: relative;
+    display: grid;
+    gap: 22px;
+    animation: rise .7s .16s ease both;
+  }
+  .lede::before {
+    content: "";
+    position: absolute;
+    left: -2px; top: 0;
+    width: 2px; height: 56px;
+    background: var(--accent);
+  }
+  .lede .lead-in {
+    font-size: 1.28em;
+    line-height: 1.55;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+  }
+  .lede .lead-in strong { font-weight: 600; color: var(--accent); }
+  .lede p { color: var(--ink-soft); }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .eyebrow, h1, .lede, .card { animation: none !important; transition: none !important; }
+  }
+
+  /* ---------- connect cards ---------- */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 22px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    text-decoration: none;
+    color: var(--ink);
+    position: relative;
+    overflow: hidden;
+    transition: transform .2s ease, border-color .2s ease, background .2s ease, box-shadow .2s ease;
+  }
+  .card::after {
+    content: "↗";
+    position: absolute;
+    top: 14px; right: 16px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 13px;
+    color: var(--accent);
+    opacity: 0;
+    transform: translate(-4px, 4px);
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .card:hover, .card:focus-visible {
+    transform: translateY(-3px);
+    border-color: rgba(232,180,90,.55);
+    background: var(--surface-hover);
+    box-shadow: 0 12px 32px rgba(0,0,0,.35);
+  }
+  .card:hover::after, .card:focus-visible::after { opacity: 1; transform: none; }
+  .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .badge {
+    flex: none;
+    width: 46px; height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(232,180,90,.28);
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--accent);
+    transition: background .2s ease, color .2s ease;
+  }
+  .card:hover .badge, .card:focus-visible .badge {
+    background: var(--accent);
+    color: var(--accent-contrast);
+  }
+  .card-text { min-width: 0; display: grid; gap: 2px; }
+  .card-text .name {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-weight: 600;
+    font-size: 1.08rem;
+    letter-spacing: -0.01em;
+  }
+  .card-text .url {
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 11px;
+    color: var(--ink-soft);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* ---------- footer ---------- */
+  footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 0 42px;
+    font-family: "IBM Plex Mono", monospace;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+  }
+  footer .dot { color: var(--accent); }
+
+  /* ---------- laptop (≤1120px): tighten gutters ---------- */
+  @media (max-width: 1120px) {
+    .sheet { padding: 0 28px; }
+  }
+
+  /* ---------- tablet (≤920px) ---------- */
+  @media (max-width: 920px) {
+    .cards { grid-template-columns: 1fr 1fr; }
+    section { padding: 6vh 0; }
+    .hero { padding: 9vh 0 4vh; }
+  }
+
+  /* ---------- mobile (≤600px) ---------- */
+  @media (max-width: 600px) {
+    body { font-size: 16px; }
+    .sheet { padding: 0 20px; }
+    section { padding: 5vh 0; }
+    .hero { padding-top: 7vh; }
+
+    header { padding-top: 22px; font-size: 11px; letter-spacing: 0.14em; }
+    header nav { gap: 18px; }          /* nav stays visible, just tighter */
+
+    .eyebrow { padding: 7px 14px; font-size: 11.5px; margin-bottom: 24px; }
+    .lede { padding-left: 18px; margin-top: 32px; gap: 18px; }
+    .lede .lead-in { font-size: 1.18em; }
+
+    .cards { grid-template-columns: 1fr; }
+
+    .card { padding: 18px; }
+    .card-text .url { max-width: 100%; }
+
+    footer { flex-direction: column; gap: 6px; padding-bottom: 34px; }
+  }
+
+  /* ---------- small phones (≤380px) ---------- */
+  @media (max-width: 380px) {
+    h1 { font-size: 2.6rem; }
+    .badge { width: 42px; height: 42px; }
+  }
+
+  /* never allow sideways scroll */
+  html, body { overflow-x: hidden; }
+</style>
 </head>
-<body class="bg-white text-zinc-900">
+<body>
+  <div class="sheet">
 
-  <div class="min-h-screen flex flex-col justify-center py-20 px-6">
-    <div class="max-w-2xl mx-auto">
+    <header>
+      <span>Nimesh Kumar<span class="dot">.</span></span>
+      <nav>
+        <a href="#connect">Connect</a>
+      </nav>
+    </header>
 
-      <div class="mb-6">
-        <span class="text-sm tracking-[3px] text-zinc-500 font-medium">SENIOR ENGINEER</span>
-      </div>
-
-      <h1 class="text-7xl font-semibold tracking-tighter leading-none mb-16">
-        Hi, I am<br>
-        Nimesh Kumar.
-      </h1>
-
-      <div class="text-[17.5px] leading-relaxed text-zinc-600 max-w-prose">
-        <p class="mb-6">
-          As a seasoned Senior Engineer, I specialize in building and scaling robust, high-performance systems that drive significant impact.
-        </p>
-        <p>
-          I have a strong track record in leading complex technical projects, collaborating effectively across diverse teams, and architecting solutions that are both innovative and maintainable.
-        </p>
-        <p class="mt-6">
-          My focus is on delivering technical excellence and contributing to products that shape the future.
-        </p>
-      </div>
-
-      <!-- 5 Icons - Small Size -->
-      <div class="mt-20">
-        <p class="text-xs uppercase tracking-widest text-zinc-400 mb-6">Connect with me</p>
-        <div class="flex gap-7 text-2xl text-zinc-400">
-          <a href="https://www.linkedin.com/in/nimeshkumar031/" target="_blank" class="hover:text-blue-600 transition-colors">
-            <i class="fab fa-linkedin-in"></i>
-          </a>
-          <a href="https://leetcode.com/u/user1467xZ/" target="_blank" class="hover:text-orange-500 transition-colors">
-            <i class="fas fa-code"></i>
-          </a>
-          <a href="https://www.hackerrank.com/profile/nimesh0505" target="_blank" class="hover:text-green-600 transition-colors">
-            <i class="fas fa-trophy"></i>
-          </a>
-          <a href="https://github.com/nimesh0505" target="_blank" class="hover:text-black transition-colors">
-
-  <i class="fab fa-github"></i>
-
-</a>
-          <a href="https://stackoverflow.com/users/10611387/nimesh-kumar" target="_blank" class="hover:text-orange-600 transition-colors">
-            <i class="fab fa-stack-overflow"></i>
-          </a>
-          <a href="mailto:Nimesh.kumar031@gmail.com" class="hover:text-red-500 transition-colors">
-            <i class="fas fa-envelope"></i>
-          </a>
+    <main>
+      <section class="hero">
+        <p class="eyebrow">Senior Engineer</p>
+        <h1><span class="thin">Hi, I am</span> Nimesh&nbsp;Kumar<span class="accent">.</span></h1>
+        <div class="lede">
+          <p class="lead-in">I build and scale <strong>robust, high-performance systems</strong> that drive real impact.</p>
+          <p>I like building things from scratch — taking ideas from a blank repo to production, with the architecture, code, and shipping included. I own what I build end to end, from design through deployment, monitoring, and everything that breaks after.</p>
+          <p>Along the way, I work closely with product to make sure what gets built is what actually matters.</p>
         </div>
-      </div>
+      </section>
 
-    </div>
+      <section id="connect">
+        <p class="section-label"><span class="dot">//</span> Connect with me</p>
+        <nav class="cards" aria-label="Profiles and contact">
+          <a class="card" href="https://www.linkedin.com/in/nimeshkumar031/" target="_blank" rel="noopener">
+            <span class="badge">in</span>
+            <span class="card-text">
+              <span class="name">LinkedIn</span>
+              <span class="url">nimeshkumar031</span>
+            </span>
+          </a>
+          <a class="card" href="https://github.com/nimesh0505" target="_blank" rel="noopener">
+            <span class="badge">gh</span>
+            <span class="card-text">
+              <span class="name">GitHub</span>
+              <span class="url">nimesh0505</span>
+            </span>
+          </a>
+          <a class="card" href="https://stackoverflow.com/users/10611387/nimesh-kumar" target="_blank" rel="noopener">
+            <span class="badge">so</span>
+            <span class="card-text">
+              <span class="name">Stack Overflow</span>
+              <span class="url">nimesh-kumar</span>
+            </span>
+          </a>
+          <a class="card" href="https://leetcode.com/u/user1467xZ/" target="_blank" rel="noopener">
+            <span class="badge">lc</span>
+            <span class="card-text">
+              <span class="name">LeetCode</span>
+              <span class="url">user1467xZ</span>
+            </span>
+          </a>
+          <a class="card" href="https://www.hackerrank.com/profile/nimesh0505" target="_blank" rel="noopener">
+            <span class="badge">hr</span>
+            <span class="card-text">
+              <span class="name">HackerRank</span>
+              <span class="url">nimesh0505</span>
+            </span>
+          </a>
+          <a class="card" href="mailto:Nimesh.kumar031@gmail.com">
+            <span class="badge">@</span>
+            <span class="card-text">
+              <span class="name">Email</span>
+              <span class="url">Nimesh.kumar031@gmail.com</span>
+            </span>
+          </a>
+        </nav>
+      </section>
+    </main>
+
+    <footer>
+      <span>© 2026 Nimesh Kumar</span>
+      <span>Built to last<span class="dot">.</span></span>
+    </footer>
+
   </div>
-
-  <footer class="text-center text-xs text-zinc-400 py-12 border-t">
-    © 2026 Nimesh Kumar
-  </footer>
-
 </body>
 </html>
