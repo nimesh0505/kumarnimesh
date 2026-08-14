@@ -16,10 +16,35 @@
     --ink-soft: #99A1AB;
     --accent: #E8B45A;
     --accent-soft: rgba(232, 180, 90, 0.12);
+    --accent-border: rgba(232, 180, 90, 0.28);
+    --accent-strong: rgba(232, 180, 90, 0.55);
     --accent-deep: #C79138;
     --accent-contrast: #14100A;
     --line: #222933;
+    --shadow: 0 12px 32px rgba(0,0,0,.35);
+    --glow-a: rgba(232,180,90,.08);
+    --glow-b: rgba(232,180,90,.04);
+    --dots: rgba(236,237,232,.055);
     --maxw: 1080px;
+  }
+  /* ---------- light theme ---------- */
+  [data-theme="light"] {
+    --paper: #F7F6F1;
+    --surface: #FFFFFF;
+    --surface-hover: #FCF8EF;
+    --ink: #171C22;
+    --ink-soft: #5B646E;
+    --accent: #A97617;
+    --accent-soft: rgba(169, 118, 23, 0.09);
+    --accent-border: rgba(169, 118, 23, 0.30);
+    --accent-strong: rgba(169, 118, 23, 0.55);
+    --accent-deep: #8A5F0F;
+    --accent-contrast: #FFFDF6;
+    --line: #E5E2D8;
+    --shadow: 0 12px 32px rgba(23,28,34,.10);
+    --glow-a: rgba(200,150,50,.07);
+    --glow-b: rgba(200,150,50,.04);
+    --dots: rgba(23,28,34,.06);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -33,11 +58,12 @@
     line-height: 1.75;
     -webkit-font-smoothing: antialiased;
     background-image:
-      radial-gradient(ellipse 55% 40% at 18% 0%, rgba(232,180,90,.08), transparent 70%),
-      radial-gradient(ellipse 45% 35% at 92% 100%, rgba(232,180,90,.04), transparent 70%),
-      radial-gradient(circle, rgba(236,237,232,.055) 1px, transparent 1px);
+      radial-gradient(ellipse 55% 40% at 18% 0%, var(--glow-a), transparent 70%),
+      radial-gradient(ellipse 45% 35% at 92% 100%, var(--glow-b), transparent 70%),
+      radial-gradient(circle, var(--dots) 1px, transparent 1px);
     background-size: 100% 100%, 100% 100%, 34px 34px;
     background-attachment: fixed;
+    transition: background-color .3s ease, color .3s ease;
   }
 
   .sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
@@ -55,7 +81,7 @@
     color: var(--ink-soft);
   }
   header .dot { color: var(--accent); }
-  header nav { display: flex; gap: 26px; }
+  header nav { display: flex; align-items: center; gap: 22px; }
   header nav a {
     color: var(--ink-soft);
     text-decoration: none;
@@ -99,7 +125,7 @@
     text-transform: uppercase;
     color: var(--accent);
     background: var(--accent-soft);
-    border: 1px solid rgba(232,180,90,.25);
+    border: 1px solid var(--accent-border);
     border-radius: 999px;
     padding: 8px 18px;
     margin-bottom: 32px;
@@ -110,7 +136,7 @@
     width: 7px; height: 7px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 10px rgba(232,180,90,.8);
+    box-shadow: 0 0 10px var(--accent-strong);
   }
 
   h1 {
@@ -193,9 +219,9 @@
   }
   .card:hover, .card:focus-visible {
     transform: translateY(-3px);
-    border-color: rgba(232,180,90,.55);
+    border-color: var(--accent-strong);
     background: var(--surface-hover);
-    box-shadow: 0 12px 32px rgba(0,0,0,.35);
+    box-shadow: var(--shadow);
   }
   .card:hover::after, .card:focus-visible::after { opacity: 1; transform: none; }
   .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -207,7 +233,7 @@
     place-items: center;
     border-radius: 12px;
     background: var(--accent-soft);
-    border: 1px solid rgba(232,180,90,.28);
+    border: 1px solid var(--accent-border);
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     font-weight: 500;
@@ -233,6 +259,28 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+
+  /* ---------- theme toggle ---------- */
+  .mode {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px; height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--accent);
+    cursor: pointer;
+    font-size: 15px;
+    line-height: 1;
+    padding: 0;
+    transition: border-color .2s ease, transform .2s ease, background .3s ease, color .3s ease;
+  }
+  .mode:hover { border-color: var(--accent-strong); transform: rotate(20deg); }
+  .mode:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .mode .sun { display: none; }
+  [data-theme="light"] .mode .sun { display: inline; }
+  [data-theme="light"] .mode .moon { display: none; }
 
   /* ---------- footer ---------- */
   footer {
@@ -299,6 +347,10 @@
       <span>Nimesh Kumar<span class="dot">.</span></span>
       <nav>
         <a href="#connect">Connect</a>
+        <button class="mode" id="modeToggle" aria-label="Switch between dark and light theme" title="Toggle theme">
+          <span class="moon" aria-hidden="true">&#9789;</span>
+          <span class="sun" aria-hidden="true">&#9728;</span>
+        </button>
       </nav>
     </header>
 
@@ -368,5 +420,18 @@
     </footer>
 
   </div>
+  <script>
+    (function () {
+      var root = document.documentElement;
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        root.setAttribute('data-theme', 'light');
+      }
+      document.getElementById('modeToggle').addEventListener('click', function () {
+        var light = root.getAttribute('data-theme') === 'light';
+        if (light) { root.removeAttribute('data-theme'); }
+        else { root.setAttribute('data-theme', 'light'); }
+      });
+    })();
+  </script>
 </body>
 </html>
