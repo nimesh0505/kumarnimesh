@@ -9,29 +9,34 @@
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300;12..96,500;12..96,600;12..96,800&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --paper: #0E1116;
-    --surface: #151B23;
-    --surface-hover: #1A222C;
+    --paper: #030303;
+    --surface: rgba(13, 13, 15, 0.95);
+    --surface-hover: rgba(22, 22, 25, 0.97);
     --ink: #ECEDE8;
-    --ink-soft: #99A1AB;
+    --ink-soft: #9C9C98;
     --accent: #E8B45A;
     --accent-soft: rgba(232, 180, 90, 0.12);
     --accent-border: rgba(232, 180, 90, 0.28);
     --accent-strong: rgba(232, 180, 90, 0.55);
     --accent-deep: #C79138;
     --accent-contrast: #14100A;
-    --line: #222933;
-    --shadow: 0 12px 32px rgba(0,0,0,.35);
-    --glow-a: rgba(232,180,90,.08);
-    --glow-b: rgba(232,180,90,.04);
-    --dots: rgba(236,237,232,.055);
+    --line: #232325;
+    --card-border: #2E2E33;
+    --halo: rgba(0,0,0,.75);
+    --shadow: 0 12px 32px rgba(0,0,0,.5);
+    --glow-top: #1C1C1C;
+    --glow-a: rgba(232,180,90,.05);
+    /* pixel field: "r,g,b" so the canvas can apply its own alpha */
+    --pixel: 236,237,232;
+    --pixel-accent: 232,180,90;
+    --pixel-strength: 0.85;
     --maxw: 1080px;
   }
   /* ---------- light theme ---------- */
   [data-theme="light"] {
-    --paper: #F7F6F1;
-    --surface: #FFFFFF;
-    --surface-hover: #FCF8EF;
+    --paper: #F4F3EE;
+    --surface: rgba(255, 255, 255, 0.96);
+    --surface-hover: rgba(252, 248, 239, 0.98);
     --ink: #171C22;
     --ink-soft: #5B646E;
     --accent: #A97617;
@@ -41,10 +46,14 @@
     --accent-deep: #8A5F0F;
     --accent-contrast: #FFFDF6;
     --line: #E5E2D8;
+    --card-border: #DCD8CC;
+    --halo: rgba(244,243,238,.9);
     --shadow: 0 12px 32px rgba(23,28,34,.10);
-    --glow-a: rgba(200,150,50,.07);
-    --glow-b: rgba(200,150,50,.04);
-    --dots: rgba(23,28,34,.06);
+    --glow-top: #FFFFFF;
+    --glow-a: rgba(200,150,50,.06);
+    --pixel: 23,28,34;
+    --pixel-accent: 169,118,23;
+    --pixel-strength: 0.6;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -57,16 +66,28 @@
     font-size: 17px;
     line-height: 1.75;
     -webkit-font-smoothing: antialiased;
+    position: relative;
+    min-height: 100vh;
+    /* soft grey sky at the top that falls off to black, like the reference */
     background-image:
-      radial-gradient(ellipse 55% 40% at 18% 0%, var(--glow-a), transparent 70%),
-      radial-gradient(ellipse 45% 35% at 92% 100%, var(--glow-b), transparent 70%),
-      radial-gradient(circle, var(--dots) 1px, transparent 1px);
-    background-size: 100% 100%, 100% 100%, 34px 34px;
-    background-attachment: fixed;
+      linear-gradient(180deg, var(--glow-top) 0, var(--paper) 110vh),
+      radial-gradient(ellipse 50% 35% at 18% 0%, var(--glow-a), transparent 70%);
+    background-repeat: no-repeat;
     transition: background-color .3s ease, color .3s ease;
   }
 
-  .sheet { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+  /* ---------- pixel field (canvas, bottom of page) ---------- */
+  .pixels {
+    position: absolute;
+    left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: min(78vh, 820px);
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .sheet { position: relative; z-index: 1; max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
 
   /* ---------- header / nav ---------- */
   header {
@@ -100,14 +121,15 @@
     font-weight: 500;
     letter-spacing: 0.24em;
     text-transform: uppercase;
-    color: var(--ink-soft);
+    color: var(--ink);
+    text-shadow: 0 0 12px var(--paper), 0 0 3px var(--paper);
     margin-bottom: 30px;
   }
   .section-label::after {
     content: "";
     flex: 1;
     height: 1px;
-    background: linear-gradient(90deg, var(--line), transparent);
+    background: linear-gradient(90deg, var(--card-border), transparent);
   }
   .section-label .dot { color: var(--accent); }
 
@@ -196,10 +218,11 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 20px 22px;
+    padding: 18px 20px;
     background: var(--surface);
-    border: 1px solid var(--line);
+    border: 1px solid var(--card-border);
     border-radius: 16px;
+    box-shadow: 0 8px 36px 8px var(--halo);
     text-decoration: none;
     color: var(--ink);
     position: relative;
@@ -221,7 +244,7 @@
     transform: translateY(-3px);
     border-color: var(--accent-strong);
     background: var(--surface-hover);
-    box-shadow: var(--shadow);
+    box-shadow: 0 8px 36px 8px var(--halo), var(--shadow);
   }
   .card:hover::after, .card:focus-visible::after { opacity: 1; transform: none; }
   .card:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
@@ -234,7 +257,7 @@
     place-items: center;
     border-radius: 12px;
     background: var(--accent-soft);
-    border: 1px solid var(--accent-border);
+    border: 1px solid var(--accent-strong);
     font-family: "IBM Plex Mono", monospace;
     font-size: 14px;
     font-weight: 500;
@@ -245,20 +268,12 @@
     background: var(--accent);
     color: var(--accent-contrast);
   }
-  .card-text { min-width: 0; display: grid; gap: 2px; }
+  .card-text { min-width: 0; }
   .card-text .name {
     font-family: "Bricolage Grotesque", sans-serif;
     font-weight: 600;
-    font-size: 1.08rem;
+    font-size: 1.12rem;
     letter-spacing: -0.01em;
-  }
-  .card-text .url {
-    font-family: "IBM Plex Mono", monospace;
-    font-size: 11px;
-    color: var(--ink-soft);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
   }
 
   /* ---------- theme toggle ---------- */
@@ -290,7 +305,9 @@
     font-family: "IBM Plex Mono", monospace;
     font-size: 12px;
     letter-spacing: 0.14em;
-    color: var(--ink-soft);
+    color: var(--ink);
+    opacity: .8;
+    text-shadow: 0 0 12px var(--paper), 0 0 3px var(--paper);
     display: flex;
     justify-content: space-between;
     gap: 16px;
@@ -326,7 +343,6 @@
     .cards { grid-template-columns: 1fr; }
 
     .card { padding: 18px; }
-    .card-text .url { max-width: 100%; }
 
     footer { flex-direction: column; gap: 6px; padding-bottom: 34px; }
   }
@@ -342,6 +358,7 @@
 </style>
 </head>
 <body>
+  <canvas class="pixels" id="pixels" aria-hidden="true"></canvas>
   <div class="sheet">
 
     <header>
@@ -373,42 +390,36 @@
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"/></svg></span>
             <span class="card-text">
               <span class="name">LinkedIn</span>
-              <span class="url">nimeshkumar031</span>
             </span>
           </a>
           <a class="card" href="https://github.com/nimesh0505" target="_blank" rel="noopener">
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></span>
             <span class="card-text">
               <span class="name">GitHub</span>
-              <span class="url">nimesh0505</span>
             </span>
           </a>
           <a class="card" href="https://stackoverflow.com/users/10611387/nimesh-kumar" target="_blank" rel="noopener">
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M15.725 0l-1.72 1.277 6.39 8.588 1.716-1.277L15.725 0zm-3.94 3.418l-1.369 1.644 8.225 6.85 1.369-1.644-8.225-6.85zm-3.15 4.465l-.905 1.94 9.702 4.517.904-1.94-9.701-4.517zm-1.85 4.86l-.44 2.093 10.473 2.201.44-2.092-10.473-2.202zM1.89 15.47V24h19.19v-8.53h-2.133v6.397H4.021v-6.397H1.89zm4.265 2.133v2.13h10.66v-2.13H6.155z"/></svg></span>
             <span class="card-text">
               <span class="name">Stack Overflow</span>
-              <span class="url">nimesh-kumar</span>
             </span>
           </a>
           <a class="card" href="https://leetcode.com/u/user1467xZ/" target="_blank" rel="noopener">
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818l4.277 4.193.039.038c2.248 2.165 5.852 2.133 8.063-.074l2.396-2.392c.54-.54.54-1.414.003-1.955a1.378 1.378 0 0 0-1.951-.003l-2.396 2.392a3.021 3.021 0 0 1-4.205.038l-.02-.019-4.276-4.193c-.652-.64-.972-1.469-.948-2.263a2.68 2.68 0 0 1 .066-.523 2.545 2.545 0 0 1 .619-1.164L9.13 8.114c1.058-1.134 3.204-1.27 4.43-.278l3.501 2.831c.593.48 1.461.387 1.94-.207a1.384 1.384 0 0 0-.207-1.943l-3.5-2.831c-.8-.647-1.766-1.045-2.774-1.202l2.015-2.158A1.384 1.384 0 0 0 13.483 0zm-2.866 12.815a1.38 1.38 0 0 0-1.38 1.382 1.38 1.38 0 0 0 1.38 1.382H20.79a1.38 1.38 0 0 0 1.38-1.382 1.38 1.38 0 0 0-1.38-1.382z"/></svg></span>
             <span class="card-text">
               <span class="name">LeetCode</span>
-              <span class="url">user1467xZ</span>
             </span>
           </a>
           <a class="card" href="https://www.hackerrank.com/profile/nimesh0505" target="_blank" rel="noopener">
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 0c1.285 0 9.75 4.886 10.392 6 .645 1.115.645 10.885 0 12S13.287 24 12 24s-9.75-4.885-10.395-6c-.641-1.115-.641-10.885 0-12C2.25 4.886 10.715 0 12 0zm2.295 6.799c-.141 0-.258.115-.258.258v3.875H9.963V6.908h.701c.141 0 .254-.115.254-.258 0-.094-.049-.176-.123-.221L9.223 4.92c-.049-.063-.141-.109-.226-.109-.084 0-.16.045-.207.109l-1.568 1.51c-.073.045-.124.126-.124.22 0 .143.114.258.255.258h.704l.008 10.035c0 .145.111.258.254.258h1.492c.142 0 .259-.115.259-.256v-4.004h4.073v4.152h-.699c-.143 0-.256.115-.256.258 0 .092.048.174.119.219l1.579 1.51c.044.061.141.109.225.109.085 0 .159-.045.208-.109l1.574-1.51c.072-.045.12-.127.12-.219 0-.143-.115-.258-.255-.258h-.704l-.007-10.034c0-.145-.114-.26-.255-.26h-1.494z"/></svg></span>
             <span class="card-text">
               <span class="name">HackerRank</span>
-              <span class="url">nimesh0505</span>
             </span>
           </a>
           <a class="card" href="mailto:Nimesh.kumar031@gmail.com">
             <span class="badge"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 2v.511l-8 5.334-8-5.334V6h16zM4 18V8.914l7.445 4.963a1 1 0 0 0 1.11 0L20 8.914V18H4z"/></svg></span>
             <span class="card-text">
               <span class="name">Email</span>
-              <span class="url">Nimesh.kumar031@gmail.com</span>
             </span>
           </a>
         </nav>
@@ -431,6 +442,175 @@
         var light = root.getAttribute('data-theme') === 'light';
         if (light) { root.removeAttribute('data-theme'); }
         else { root.setAttribute('data-theme', 'light'); }
+      });
+    })();
+
+    /* ---------- pixel field ---------- */
+    (function () {
+      var canvas = document.getElementById('pixels');
+      var ctx = canvas.getContext('2d');
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      var W, H, dpr, pitch, size, offX, cols, rows, n;
+      var base, env, phase, speed, flash, accent;
+      var rgb, rgbAccent, strength;
+      var px = -1e5, py = -1e5;           // pointer, device px in canvas space
+      var running = false, last = 0, rafId = 0;
+
+      function smooth(a, b, x) {
+        var t = Math.min(1, Math.max(0, (x - a) / (b - a)));
+        return t * t * (3 - 2 * t);
+      }
+
+      function readTheme() {
+        var cs = getComputedStyle(document.documentElement);
+        rgb = 'rgb(' + cs.getPropertyValue('--pixel').trim() + ')';
+        rgbAccent = 'rgb(' + cs.getPropertyValue('--pixel-accent').trim() + ')';
+        strength = parseFloat(cs.getPropertyValue('--pixel-strength')) || 1;
+      }
+
+      function build() {
+        // keep the field below the intro copy so it never sits behind body text
+        canvas.style.height = '';
+        var hero = document.querySelector('.hero');
+        var room = document.body.offsetHeight - (hero.offsetTop + hero.offsetHeight) + 60;
+        if (canvas.offsetHeight > room) canvas.style.height = Math.max(room, 240) + 'px';
+
+        var r = canvas.getBoundingClientRect();
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        W = canvas.width = Math.round(r.width * dpr);
+        H = canvas.height = Math.round(r.height * dpr);
+
+        pitch = Math.round((r.width < 600 ? 11 : 13) * dpr);
+        size = Math.round(pitch * 0.72);
+        cols = Math.ceil(W / pitch);
+        rows = Math.ceil(H / pitch);
+        offX = Math.round((W - (cols - 1) * pitch - size) / 2);
+        n = cols * rows;
+
+        base = new Float32Array(n);
+        env = new Float32Array(n);
+        phase = new Float32Array(n);
+        speed = new Float32Array(n);
+        flash = new Float32Array(n);
+        accent = new Uint8Array(n);
+
+        for (var y = 0; y < rows; y++) {
+          var t = (y + 0.5) / rows;               // 0 = top of field, 1 = bottom
+          var ramp = smooth(0, 0.45, t);          // ragged, sparse horizon
+          var tail = 0.45 + 0.55 * smooth(1, 0.8, t); // dims a little at the very bottom
+          for (var x = 0; x < cols; x++) {
+            var i = y * cols + x;
+            env[i] = ramp * tail;
+            phase[i] = Math.random() * Math.PI * 2;
+            speed[i] = 0.4 + Math.random() * 1.4;
+            if (Math.random() > Math.pow(ramp, 1.3) * 0.97) continue; // empty cell
+            if (Math.random() < 0.045) {
+              base[i] = 0.62 + Math.random() * 0.25;                  // bright cell
+              accent[i] = Math.random() < 0.1 ? 1 : 0;
+            } else {
+              base[i] = 0.04 + Math.pow(Math.random(), 1.7) * 0.22;   // grey cell
+            }
+            base[i] *= 0.35 + 0.65 * ramp;
+            base[i] *= tail;
+          }
+        }
+      }
+
+      function draw(now) {
+        var t = now / 1000;
+        ctx.clearRect(0, 0, W, H);
+
+        if (!reduce) {
+          // a few cells "twinkle" every frame
+          var sparks = Math.max(1, Math.round(n / 1800));
+          for (var k = 0; k < sparks; k++) {
+            var j = (Math.random() * n) | 0;
+            if (base[j] > 0) flash[j] = 1;
+          }
+        }
+
+        var hoverR = 110 * dpr, hoverR2 = hoverR * hoverR;
+        for (var pass = 0; pass < 2; pass++) {
+          ctx.fillStyle = pass ? rgbAccent : rgb;
+          for (var y = 0; y < rows; y++) {
+            var cy = y * pitch;
+            var dy = cy - py, dy2 = dy * dy;
+            for (var x = 0; x < cols; x++) {
+              var i = y * cols + x;
+              if (accent[i] !== pass) continue;
+              var cx = offX + x * pitch;
+              var a = base[i];
+              if (!reduce && a > 0) a *= 0.72 + 0.28 * Math.sin(t * speed[i] + phase[i]);
+              if (flash[i] > 0.01) {
+                a += flash[i] * 0.6 * env[i];
+                flash[i] *= 0.93;
+              }
+              if (dy2 < hoverR2) {
+                var dx = cx - px, d2 = dx * dx + dy2;
+                if (d2 < hoverR2) {
+                  var h = 1 - Math.sqrt(d2) / hoverR;
+                  a += h * h * 0.45 * (0.3 + 0.7 * env[i]);
+                }
+              }
+              a *= strength;
+              if (a < 0.012) continue;
+              ctx.globalAlpha = a > 1 ? 1 : a;
+              ctx.fillRect(cx, cy, size, size);
+            }
+          }
+        }
+        ctx.globalAlpha = 1;
+      }
+
+      function loop(now) {
+        rafId = requestAnimationFrame(loop);
+        if (now - last < 33) return;      // ~30fps is plenty for a backdrop
+        last = now;
+        draw(now);
+      }
+
+      function start() {
+        if (running || reduce) return;
+        running = true;
+        rafId = requestAnimationFrame(loop);
+      }
+      function stop() {
+        running = false;
+        cancelAnimationFrame(rafId);
+      }
+
+      readTheme();
+      build();
+      draw(performance.now());
+
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          entries[0].isIntersecting ? start() : stop();
+        }).observe(canvas);
+      } else {
+        start();
+      }
+
+      var resizeTimer;
+      window.addEventListener('resize', function () {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(function () { build(); draw(performance.now()); }, 120);
+      });
+
+      new MutationObserver(function () { readTheme(); draw(performance.now()); })
+        .observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+      window.addEventListener('pointermove', function (e) {
+        if (e.pointerType !== 'mouse') return;
+        var r = canvas.getBoundingClientRect();
+        px = (e.clientX - r.left) * dpr;
+        py = (e.clientY - r.top) * dpr;
+        if (reduce) draw(performance.now());
+      }, { passive: true });
+      document.addEventListener('mouseleave', function () {
+        px = py = -1e5;
+        if (reduce) draw(performance.now());
       });
     })();
   </script>
